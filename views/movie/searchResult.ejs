@@ -1,0 +1,46 @@
+<% include ../partials/header.ejs %>
+
+<style>
+    .form-group{
+        display: inline;
+    }
+    .form-control{
+        display: inline;
+        width: 90%;
+    }
+    .btn-block {
+        display: inline;
+        width: 5%;
+    }
+</style>
+  
+<div class="container" style="padding-top: 60px">
+  <form action="/movies/search" method="post" style="padding-top: 25px; padding-bottom: 25px;">
+      <div class="form-group">
+                <input class="form-control" type="text" name="search" placeholder="Search movies">
+      </div>
+      <div class="form-group" id="search_button">
+                <button class="btn btn-md btn-primary btn-block" type="submit" ><i class="glyphicon glyphicon-search"></i></button>
+      </div>
+  </form>
+<% var x = Math.ceil(movies.length/4);
+   var k=0 ; %>
+<% for(var i=0;i<x;i++) { %>
+      <div class="row" style="display:flex; flex-wrap: wrap; text-align: center">
+      <% for(var j=0;j<4&&k<movies.length;j++) { %>
+           <div class="col-md-3 col-sm-6"> 
+              <div class="thumbnail">
+                  <% if(movies[k].poster!="N/A"){ %>
+                        <img src="<%= movies[k].poster; %>" onerror=this.src="https://s.gravatar.com/avatar/eb3e104452d654350a5d1a65caa2e49e?size=100&default=retro">
+                  <% }else{ %>
+                        <img src="https://s.gravatar.com/avatar/eb3e104452d654350a5d1a65caa2e49e?size=100&default=retro">
+                  <% } %>
+                <h3><%= movies[k].title; %></h3>
+                <a href="/movies/<%=movies[k]._id%>"><button class="btn btn-primary">Show More</button></a>
+            </div>
+           </div>
+      <% k++; }%>
+     </div>
+<% ; } %>
+</div>
+<% include ../partials/footer.ejs %>

@@ -1,0 +1,36 @@
+<% include ../partials/header.ejs %>
+<style>.form-control{
+         margin-left: auto;
+         margin-right: auto;
+         width: 30%;
+         }
+       h1{
+         text-align: center;
+         margin-bottom: 25px}
+       button{
+         margin-left: 35%;
+         margin-right: auto;
+         width: 30%;
+       }
+       .btn{
+           margin-bottom: 10px;
+       }
+       a{
+        margin-left: 37.5%;
+       }
+       body{
+         padding-top: 70px;
+}
+       </style>
+       
+<form action="/movies/<%= movie._id %>/comments/<%= comment._id %>/edit" method="post" class="container">
+  <h1>Edit Comment On <%= movie.name %></h1>
+  
+  <div class="form-group">
+    <input type="text" class="form-control" value="<%= comment.text %>" name="comment[text]" required>
+  </div>
+  <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+</form>
+<a href="/movies">Go back</a>
+
+<% include ../partials/footer.ejs %>

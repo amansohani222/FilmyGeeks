@@ -1,0 +1,60 @@
+<% include ../partials/header.ejs %>
+<style>
+    .form-group{
+        display: inline;
+    }
+    .form-control{
+        display: inline;
+        width: 90%;
+    }
+    .btn-block {
+        display: inline;
+        width: 5%;
+    }
+</style>
+<div class="container" style="padding-bottom: 25px">
+  <div class="jumbotron">
+    <h1>Welcome To FilmyGeeks.com</h1>
+    <p>Get all movies here for free. Wanna share, just sign up</p>
+    <p><a class="btn btn-primary btn-lg" href="/movies/new" role="button">Add a new movie</a></p>
+  </div>
+  <form action="/movies/search" method="post">
+      <div class="form-group">
+                <input class="form-control" type="text" name="search" placeholder="Search movies">
+      </div>
+      <div class="form-group" id="search_button">
+                <button class="btn btn-md btn-primary btn-block" type="submit" ><i class="glyphicon glyphicon-search"></i></button>
+      </div>
+  </form>
+</div>
+<div class="container">
+<% for(var i=0;i<movies.length/2;i++){
+    var temp = movies[i];
+    movies[i] = movies[movies.length-1-i];
+    movies[movies.length-1-i] = temp;
+}
+%>
+
+
+
+<% var x = Math.ceil(movies.length/4);
+   var k=0 ; %>
+<% for(var i=0;i<x;i++) { %>
+      <div class="row" style="display:flex; flex-wrap: wrap; text-align: center">
+      <% for(var j=0;j<4&&k<movies.length;j++) { %>
+           <div class="col-md-3 col-sm-6"> 
+              <div class="thumbnail">
+                  <% if(movies[k].poster!="N/A"){ %>
+                        <img src="<%= movies[k].poster; %>" onerror=this.src="movie.png">
+                  <% }else{ %>
+                        <img src="movie.png">
+                  <% } %>
+                <h3><%= movies[k].title; %></h3>
+                <a href="/movies/<%=movies[k]._id%>"><button class="btn btn-primary">Show More</button></a>
+            </div>
+           </div>
+      <% k++; }%>
+     </div>
+<% ; } %>
+</div>
+<% include ../partials/footer.ejs %>

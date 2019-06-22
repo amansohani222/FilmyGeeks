@@ -1,0 +1,203 @@
+<% include ../partials/header.ejs %>
+
+	<style>
+		img {
+			width: 100%;
+			height: auto;
+		}
+
+		.nm {
+			text-align: left;
+		}
+
+		#price {
+			float: right;  
+		}
+
+		.btn-group-vertical>.btn,
+		.btn-group-vertical>.btn-group,
+		.btn-group-vertical>.btn-group>.btn {
+			width: 250px;
+		}
+
+		#review {
+			float: right;
+		}
+
+		#date {
+			float: right;
+		}
+
+		.thumbnail {
+			padding: 0px;
+		}
+
+		.cntnt {
+			padding: 10px;
+		}
+
+		#xyz {
+			margin-bottom: 1px;
+		}
+
+		body {
+			padding-top: 70px;
+		}
+
+		.delete_button {
+			display: inline;
+		}
+	</style>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<h1>Filmy Geeks</h1>
+				<div class="btn-group-vertical" role="group" aria-label="...">
+					<button type="button" class="btn btn-default active">Catogery 1</button>
+					<button type="button" class="btn btn-default ">Catogery 2</button>
+					<button type="button" class="btn btn-default ">Catogery 3</button>
+
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="thumbnail">
+					<img src="<%=moviec.Poster%>">
+					<div class="cntnt">
+						<h4 class="nm">
+							<span>
+								<a>
+									<%=moviec.Title%>
+								</a>
+							</span>
+							<span id="price">
+								<%= moviec.Released %>
+							</span>
+						</h4>
+						<p>
+							<strong>Genre: </strong>
+							<%= moviec.Genre %>
+						</p>
+						<p>
+							<strong>Director: </strong>
+							<%= moviec.Director %>
+						</p>
+						<p>
+							<strong>Cast: </strong>
+							<%= moviec.Actors %>
+						</p>
+						<p>
+							<strong>Rating: </strong>
+							<%= moviec.imdbRating %>
+						</p>
+						<p>
+							<strong>Plot: </strong>
+							<%=moviec.Plot %>
+						</p>
+						<p>
+							<em>Uploded By
+								<%= movie.author.username %>
+							</em>
+						</p>
+						<% if(movie.link.substring(0,8)==("https:/"+"/")||movie.link.substring(0,7)==("http:/"+"/")) { %>
+							<a href="<%= movie.link %>">
+								<button type="button" class="btn btn-success btn-lg" style="display: block">Download</button>
+							</a>
+							<% } else{ 
+                                                 console.log(movie.link.substring(0,9)); %>
+								<a href="https://<%= movie.link %>">
+									<button type="button" class="btn btn-success btn-lg" style="display: block">Download</button>
+								</a>
+								<% } %>
+									<br>
+									<% if(currentUsr!=null)
+                                            if(currentUsr._id.equals(movie.author.id))
+                                           { %>
+										<a href="/movies/<%= movie._id %>/edit">
+											<button class="btn btn-warning btn-sm">EDIT</button>
+										</a>
+										<form action="/movies/<%= movie._id %>/delete" class="delete_button" method="POST">
+											<button class="btn btn-danger btn-sm">DELETE</button>
+										</form>
+										<% } %>
+					</div>
+				</div>
+				<div class="well">
+					<span>
+						<a href="/movies/<%=movie._id%>/comments/new" class="btn btn-success" id="review">Leave a Review</a>
+					</span>
+					<br>
+					<hr>
+					<% for(var i=0; i < movie.comments.length; i++)
+                                { %>
+						<div>
+							<p id="xyz">
+								<strong class="nm">
+									<%= movie.comments[i].author.username; %>
+								</strong>
+								<span id="date">10 Days Ago</span>
+							</p>
+							<p>
+								<%= movie.comments[i].text; %>
+							</p>
+							<% if(currentUsr!=null && currentUsr._id.equals(movie.comments[i].author.id))
+                                                { %>
+								<a href="/movies/<%= movie._id %>/comments/<%= movie.comments[i]._id %>/edit">
+									<button class="btn btn-warning btn-xs">EDIT</button>
+								</a>
+								<form action="/movies/<%= movie._id %>/comments/<%= movie.comments[i]._id %>/delete" class="delete_button" method="POST">
+									<button class="btn btn-danger btn-xs">DELETE</button>
+								</form>
+								<% } %>
+									<a href="/movies/<%= movie._id %>/comments/<%= movie.comments[i]._id %>/reply">
+										<button class="btn btn-success btn-xs">REPLY</button>
+									</a>
+
+									</button>
+						</div>
+						<br>
+						
+				    <details>
+						<summary style="padding-left: 5%"><strong>View <%=movie.comments[i].replies.length%> replies</strong></summary>
+						<div style="padding-left: 10%; padding-top: 15px;">
+				            <% for(var j=0; j < movie.comments[i].replies.length; j++)
+                                { %>
+				               		<div>
+										   
+											<p id="xyz">
+												<strong class="nm">
+													<%= movie.comments[i].replies[j].author.username; %>
+												</strong>
+												<span id="date">10 Days Ago</span>
+											</p>
+											<p>
+												<%= movie.comments[i].replies[j].text; %>
+											</p>
+											<% if(currentUsr!=null && currentUsr._id.equals(movie.comments[i].replies[j].author.id))
+																{ %>
+												<a href="/movies/<%= movie._id %>/comments/<%= movie.comments[i].replies[j]._id %>/edit">
+													<button class="btn btn-warning btn-xs">EDIT</button>
+												</a>
+												<form action="/movies/<%= movie._id %>/comments/<%= movie.comments[i].replies[j]._id %>/delete" class="delete_button" method="POST">
+													<button class="btn btn-danger btn-xs">DELETE</button>
+												</form>
+											<% } %>
+
+													</button>
+						   			</div>
+				
+				
+				
+				
+							<% } %>
+						</div>
+					</details>
+				               
+						<% } %>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<% include ../partials/footer.ejs %>
